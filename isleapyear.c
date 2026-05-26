@@ -4,7 +4,6 @@
 int main() {
 
     int year;
-    printf("Enter an integer: ");
     scanf("%d", &year);
 
     if (year % 4 == 0){
