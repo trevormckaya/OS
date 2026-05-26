@@ -8,12 +8,11 @@ int main() {
     scanf("%d", &year);
 
     if (year % 4 == 0){
-      if (year % 400 == 0) {
-        printf("year is prime\n");
+      if (year % 400 == 0 && year % 100 !=0) {
+        printf("%d was a leap year\n",year);
+        return 0;
+          }
       }
-      if (year % 100 != 0){
-        printf("year is prime\n");
-        }
-      }
+    printf("%d was not a leap year\n",year);
     return 0;
 }
