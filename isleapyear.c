@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
 
     if (year % 4 == 0){
         printf("%d was a leap year",year);
+        return 0;
       }
     printf("%d was not a leap year",year);
     return 0;
