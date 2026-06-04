@@ -11,9 +11,10 @@ int test_null_pcb(struct PCB inpcb){
     else
         return 0;
 }
+
 struct PCB handle_process_arrival_pp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, struct PCB current_process, struct PCB new_process, int timestamp)
 {
-    if(test_null_pcb(current_process)){
+    if (test_null_pcb(current_process)){
         new_process.execution_starttime = timestamp;
         new_process.execution_endtime = timestamp + new_process.total_bursttime;
         new_process.remaining_bursttime = new_process.total_bursttime;
@@ -37,7 +38,24 @@ struct PCB handle_process_arrival_pp(struct PCB ready_queue[QUEUEMAX], int *queu
     }
 }
 struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, int timestamp)
-{}
+{
+    int index = 0;
+    if (*queue_cnt == 0){
+        return ready_queue[0];
+    } else {
+        //find lowest priority value
+        for (int i = 1; i < *queue_cnt; i++){
+            if (ready_queue[i].process_priority < ready_queue[index].process_priority){
+                index = i;
+            }
+        }
+        ready_queue[index].execution_starttime = timestamp;
+        ready_queue[index].execution_endtime = timestamp + ready_queue[index].remaining_bursttime;
+        *queue_cnt -= 1;
+        return ready_queue[index];
+    }
+    
+}
 struct PCB handle_process_arrival_srtp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, struct PCB current_process, struct PCB new_process, int time_stamp)
 {}
 struct PCB handle_process_completion_srtp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, int timestamp)
