@@ -49,10 +49,14 @@ struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *q
                 index = i;
             }
         }
-        ready_queue[index].execution_starttime = timestamp;
-        ready_queue[index].execution_endtime = timestamp + ready_queue[index].remaining_bursttime;
+        struct PCB next_process = ready_queue[index];
+        next_process.execution_starttime = timestamp;
+        next_process.execution_endtime = timestamp + next_process.remaining_bursttime;
+        
+        //replace empty spot in ready queue. 
+        ready_queue[index] = ready_queue[*queue_cnt - 1];
         *queue_cnt -= 1;
-        return ready_queue[index];
+        return next_process;
     }
     
 }
