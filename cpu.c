@@ -52,13 +52,13 @@ struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *q
         struct PCB next_process = ready_queue[index];
         next_process.execution_starttime = timestamp;
         next_process.execution_endtime = timestamp + next_process.remaining_bursttime;
-        
-        //replace empty spot in ready queue. 
-        ready_queue[index] = ready_queue[*queue_cnt - 1];
+        //remove process from ready queue
+        for (int i = index; i < *queue_cnt - 1; i++){
+            ready_queue[i] = ready_queue[i + 1];
+        }
         *queue_cnt -= 1;
-        return ready_queue, *queue_cnt, next_process;
+        return next_process;
     }
-    
 }
 struct PCB handle_process_arrival_srtp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, struct PCB current_process, struct PCB new_process, int time_stamp)
 {}
