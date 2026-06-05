@@ -56,7 +56,7 @@ struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *q
         //replace empty spot in ready queue. 
         ready_queue[index] = ready_queue[*queue_cnt - 1];
         *queue_cnt -= 1;
-        return next_process;
+        return ready_queue, *queue_cnt, next_process;
     }
     
 }
