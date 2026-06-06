@@ -41,7 +41,7 @@ struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *q
 {
     int index = 0;
     if (*queue_cnt == 0){
-        return ready_queue[0];
+        return (struct PCB){0,0,0,0,0,0,0};
     } else {
         //find lowest priority value
         for (int i = 1; i < *queue_cnt; i++){
@@ -49,15 +49,20 @@ struct PCB handle_process_completion_pp(struct PCB ready_queue[QUEUEMAX], int *q
                 index = i;
             }
         }
-        struct PCB next_process = ready_queue[index];
-        next_process.execution_starttime = timestamp;
-        next_process.execution_endtime = timestamp + next_process.remaining_bursttime;
+        //update timestamps for highest priority value
+        ready_queue[index].execution_starttime = timestamp;
+        ready_queue[index].execution_endtime = timestamp + ready_queue[index].remaining_bursttime;
+
+        //store the next PCB for return
+        struct PCB temp = ready_queue[index];
+        
         //remove process from ready queue
         for (int i = index; i < *queue_cnt - 1; i++){
             ready_queue[i] = ready_queue[i + 1];
         }
         *queue_cnt -= 1;
-        return next_process;
+        
+        return temp;
     }
 }
 struct PCB handle_process_arrival_srtp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, struct PCB current_process, struct PCB new_process, int time_stamp)
