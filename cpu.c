@@ -95,7 +95,7 @@ struct PCB handle_process_arrival_srtp(struct PCB ready_queue[QUEUEMAX], int *qu
 }
 struct PCB handle_process_completion_srtp(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, int timestamp)
 {
-    index=0;
+    int index=0;
     if (*queue_cnt == 0){
         return (struct PCB){0,0,0,0,0,0,0};
     } else {
