@@ -141,4 +141,34 @@ struct PCB handle_process_arrival_rr(struct PCB ready_queue[QUEUEMAX], int *queu
     }
 }
 struct PCB handle_process_completion_rr(struct PCB ready_queue[QUEUEMAX], int *queue_cnt, int timestamp, int time_quantum)
-{}
+{
+    int index = 0;
+    if (*queue_cnt == 0){
+        return (struct PCB){0,0,0,0,0,0,0};
+    } else {
+        //find earliest arrival time
+        for (int i = 1; i < *queue_cnt; i++){
+            if (ready_queue[i].arrival_timestamp < ready_queue[index].arrival_timestamp){
+                index = i;
+            }
+        }
+        if (time_quantum < ready_queue[index].remaining_bursttime) {
+            ready_queue[index].execution_endtime = timestamp + time_quantum;
+        } else {
+            ready_queue[index].execution_endtime = timestamp + ready_queue[index].remaining_bursttime;
+        }
+
+        ready_queue[index].execution_starttime = timestamp;
+        
+        //store the next PCB for return
+        struct PCB temp = ready_queue[index];
+        
+        //remove process from ready queue
+        for (int i = index; i < *queue_cnt - 1; i++){
+            ready_queue[i] = ready_queue[i + 1];
+        }
+        *queue_cnt -= 1;
+        
+        return temp;
+    }
+}
