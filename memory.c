@@ -27,16 +27,14 @@ struct MEMORY_BLOCK best_fit_allocate(int request_size, struct MEMORY_BLOCK memo
       memory_map[best_index].segment_size = request_size;
       memory_map[best_index].end_address = memory_map[best_index].start_address + request_size;
       memory_map[best_index].process_id = process_id;
-      
       (*map_cnt)++;
-      return memory_map[best_index];
     } else {
       memory_map[best_index].process_id = process_id;
-      return memory_map[best_index];
     }
   } else {
     return build_mblock(0,0,0,0);
   }
+  return memory_map[best_index];
 }  
 struct MEMORY_BLOCK first_fit_allocate(int request_size, struct MEMORY_BLOCK memory_map[MAPMAX],int *map_cnt, int process_id){}  
 struct MEMORY_BLOCK worst_fit_allocate(int request_size, struct MEMORY_BLOCK memory_map[MAPMAX],int *map_cnt, int process_id){}
