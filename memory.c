@@ -1,19 +1,19 @@
 #include "oslabs.h"
 
 struct MEMORY_BLOCK build_mblock(int start_address, int end_address, int segment_size, int process_id){
-  struct MEMORY_BLOCK block;
-  block.start_address = start_address;
-  block.end_address = end_address;
-  block.segment_size = segment_size;
-  block.process_id = process_id;
-  return block;
+  struct MEMORY_BLOCK myblock;
+  myblock.start_address = start_address;
+  myblock.end_address = end_address;
+  myblock.segment_size = segment_size;
+  myblock.process_id = process_id;
+  return myblock;
 }
 
 struct MEMORY_BLOCK best_fit_allocate(int request_size, struct MEMORY_BLOCK memory_map[MAPMAX],int *map_cnt, int process_id){
   int best_index = -1;
   int best_space = 99999;
   for(int i = 0; i < *map_cnt; i++){
-    if(memory_map[i].segment_size >= request_size && memory_map[i].segment_size < best_space){
+    if(memory_map[i].segment_size >= request_size && memory_map[i].segment_size < best_space && memory_map[i].process_id == 0){
       best_index = i;
       best_space = memory_map[i].segment_size;
     }
@@ -25,7 +25,7 @@ struct MEMORY_BLOCK best_fit_allocate(int request_size, struct MEMORY_BLOCK memo
       memory_map[*map_cnt].process_id = 0;
       memory_map[*map_cnt].segment_size = memory_map[best_index].segment_size - request_size;
       memory_map[best_index].segment_size = request_size;
-      memory_map[best_index].end_address = memory_map[best_index].start_address + request_size;
+      memory_map[best_index].end_address = memory_map[best_index].start_address + request_size - 1;
       memory_map[best_index].process_id = process_id;
       (*map_cnt)++;
     } else {
