@@ -29,8 +29,9 @@ struct MEMORY_BLOCK best_fit_allocate(int request_size, struct MEMORY_BLOCK memo
       memory_map[best_index].process_id = process_id;
       
       (*map_cnt)++;
+      return memory_map[best_index];
     } else {
-      memory_map[i].process_id = process_id;
+      memory_map[best_index].process_id = process_id;
       return memory_map[i];
     }
   } else {
