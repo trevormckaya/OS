@@ -32,7 +32,7 @@ struct MEMORY_BLOCK best_fit_allocate(int request_size, struct MEMORY_BLOCK memo
       return memory_map[best_index];
     } else {
       memory_map[best_index].process_id = process_id;
-      return memory_map[i];
+      return memory_map[best_index];
     }
   } else {
     return build_mblock(0,0,0,0);
